@@ -16,6 +16,7 @@ use Innmind\CLI\{
 use Innmind\Server\Control\{
     Server,
     Server\Command as ServerCommand,
+    Server\Process\ExitCode,
 };
 
 final class Grant implements Command
@@ -32,18 +33,29 @@ final class Grant implements Command
     public function __invoke(Environment $env, Arguments $arguments, Options $options): void
     {
         $keys = ($this->fetch)(new Name($arguments->get('name')));
-        $exitCode = $this
-            ->server
-            ->processes()
-            ->execute(
-                ServerCommand::foreground('echo')
-                    ->withArgument((string) $keys->join("\n"))
-                    ->withArgument('>>')
-                    ->withArgument('.ssh/authorized_keys')
-                    ->withWorkingDirectory($env->variables()->get('HOME'))
-            )
-            ->wait()
-            ->exitCode();
+
+        $home = $env->variables()->get('HOME');
+        $exitCode = $keys->reduce(
+            new ExitCode(0),
+            function(ExitCode $exitCode, string $key) use ($home): ExitCode {
+                if (!$exitCode->isSuccessful()) {
+                    return $exitCode;
+                }
+
+                return $this
+                    ->server
+                    ->processes()
+                    ->execute(
+                        ServerCommand::foreground('echo')
+                            ->withArgument($key)
+                            ->withArgument('>>')
+                            ->withArgument('.ssh/authorized_keys')
+                            ->withWorkingDirectory($home)
+                    )
+                    ->wait()
+                    ->exitCode();
+            }
+        );
         $env->exit($exitCode->toInt());
     }
 
