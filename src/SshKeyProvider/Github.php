@@ -46,6 +46,9 @@ final class Github implements SshKeyProvider
             ->body()
             ->read()
             ->split("\n")
+            ->filter(static function(Str $key): bool {
+                return !$key->empty();
+            })
             ->reduce(
                 Set::of('string'),
                 static function(SetInterface $keys, Str $key): SetInterface {

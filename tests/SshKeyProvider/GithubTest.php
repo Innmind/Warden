@@ -50,7 +50,7 @@ class GithubTest extends TestCase
         $body
             ->expects($this->once())
             ->method('read')
-            ->willReturn(Str::of("foo\nbar\nbaz"));
+            ->willReturn(Str::of("foo\nbar\nbaz\n"));
 
         $keys = $fetch(new Name('baptouuuu'));
 
