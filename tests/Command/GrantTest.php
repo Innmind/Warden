@@ -119,7 +119,7 @@ class GrantTest extends TestCase
             ->expects($this->once())
             ->method('__invoke')
             ->with(new Name('baptouuuu'))
-            ->willReturn(Set::of('string', 'foo'));
+            ->willReturn(Set::of('string', 'foo', 'bar'));
         $server
             ->expects($this->once())
             ->method('processes')
