@@ -38,7 +38,7 @@ final class Grant implements Command
             ->execute(
                 ServerCommand::foreground('echo')
                     ->withArgument((string) $keys->join("\n"))
-                    ->withArgument('>')
+                    ->withArgument('>>')
                     ->withArgument('.ssh/authorized_keys')
                     ->withWorkingDirectory($env->variables()->get('HOME'))
             )

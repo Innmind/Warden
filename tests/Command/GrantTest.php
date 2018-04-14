@@ -58,7 +58,7 @@ class GrantTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($this->callback(static function($command): bool {
-                return (string) $command === "echo 'foo' '>' '.ssh/authorized_keys'" &&
+                return (string) $command === "echo 'foo' '>>' '.ssh/authorized_keys'" &&
                     $command->workingDirectory() === '/home/baptouuuu';
             }))
             ->willReturn($process = $this->createMock(Process::class));
