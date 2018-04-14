@@ -1,0 +1,27 @@
+dependencies:
+    transport @innmind/http-transport/container.yml: []
+
+expose:
+    commands: $commands
+
+services:
+    commands Innmind\CLI\Commands:
+        - $command.wakeup
+        - $command.lock
+        - $command.grant
+
+    command:
+        wakeup Innmind\Warden\Command\Wakeup:
+            - $server
+
+        lock Innmind\Warden\Command\Lock:
+            - $server
+
+        grant Innmind\Warden\Command\Grant:
+            - $sshKeyProvider
+            - $server
+
+    sshKeyProvider Innmind\Warden\SshKeyProvider\Github:
+        - $transport.thrower
+
+    server Innmind\Server\Control\ServerFactory::build: []

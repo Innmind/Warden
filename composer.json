@@ -1,0 +1,44 @@
+{
+    "name": "innmind/warden",
+    "type": "library",
+    "description": "Tool to restrict ssh connections",
+    "keywords": [],
+    "homepage": "http://github.com/Innmind/Warden",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Baptiste Langlade",
+            "email": "langlade.baptiste@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "http://github.com/Innmind/Warden/issues"
+    },
+    "require": {
+        "php": "~7.2",
+        "innmind/immutable": "^2.8",
+        "innmind/http-transport": "^3.2",
+        "innmind/server-control": "^2.5",
+        "innmind/cli": "^1.2",
+        "innmind/compose": "^1.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Innmind\\Warden\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Innmind\\Warden\\": "tests/",
+            "Fixture\\Innmind\\Warden\\": "fixtures/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~7.0",
+        "giorgiosironi/eris": "~0.10.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit --colors=always"
+    },
+    "bin": ["warden"]
+}
