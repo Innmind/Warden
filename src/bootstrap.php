@@ -17,7 +17,7 @@ function bootstrap(): Commands
 {
     $transports = transports();
     $throw = $transports['throw_server'];
-    $catchException = $transports['cacth_guzzle_exceptions'];
+    $catchException = $transports['catch_guzzle_exceptions'];
     $guzzle = $transports['guzzle'];
     $transport = $throw(
         $catchException(
