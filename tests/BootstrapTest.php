@@ -5,6 +5,7 @@ namespace Tests\Innmind\Warden;
 
 use function Innmind\Warden\bootstrap;
 use Innmind\CLI\Commands;
+use Innmind\OperatingSystem\OperatingSystem;
 use PHPUnit\Framework\TestCase;
 
 class BootstrapTest extends TestCase
@@ -13,7 +14,7 @@ class BootstrapTest extends TestCase
     {
         $this->assertInstanceOf(
             Commands::class,
-            bootstrap()
+            bootstrap($this->createMock(OperatingSystem::class))
         );
     }
 }

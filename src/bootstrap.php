@@ -10,29 +10,23 @@ use Innmind\Warden\{
     SshKeyProvider\Github,
 };
 use Innmind\CLI\Commands;
-use Innmind\Server\Control\ServerFactory;
+use Innmind\OperatingSystem\OperatingSystem;
 use function Innmind\HttpTransport\bootstrap as transports;
 
-function bootstrap(): Commands
+function bootstrap(OperatingSystem $os): Commands
 {
     $transports = transports();
-    $throw = $transports['throw_server'];
-    $catchException = $transports['catch_guzzle_exceptions'];
-    $guzzle = $transports['guzzle'];
+    $throw = $transports['throw_on_error'];
     $transport = $throw(
-        $catchException(
-            $guzzle()
-        )
+        $os->remote()->http()
     );
 
-    $server = ServerFactory::build();
-
     return new Commands(
-        new Wakeup($server),
-        new Lock($server),
+        new Wakeup($os->control()),
+        new Lock($os->control()),
         new Grant(
             new Github($transport),
-            $server
+            $os->control()
         )
     );
 }
