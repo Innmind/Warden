@@ -36,7 +36,7 @@ class GithubTest extends TestCase
         );
         $http
             ->expects($this->once())
-            ->method('fulfill')
+            ->method('__invoke')
             ->with($this->callback(static function($request): bool {
                 return (string) $request->url() === 'http://github.com/baptouuuu.keys' &&
                     (string) $request->method() === 'GET' &&

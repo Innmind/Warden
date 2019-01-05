@@ -34,15 +34,13 @@ final class Github implements SshKeyProvider
      */
     public function __invoke(Name $name): SetInterface
     {
-        return $this
-            ->http
-            ->fulfill(
-                new Request(
-                    Url::fromString("http://github.com/$name.keys"),
-                    new Method(Method::GET),
-                    new ProtocolVersion(2, 0)
-                )
-            )
+        $response = ($this->http)(new Request(
+            Url::fromString("http://github.com/$name.keys"),
+            new Method(Method::GET),
+            new ProtocolVersion(2, 0)
+        ));
+
+        return $response
             ->body()
             ->read()
             ->split("\n")

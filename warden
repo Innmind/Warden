@@ -30,7 +30,7 @@ use Innmind\OperatingSystem\OperatingSystem;
 new class extends Main {
     protected function main(Environment $env, OperatingSystem $os): void
     {
-        $run = bootstrap();
+        $run = bootstrap($os);
         $run($env);
     }
 };
