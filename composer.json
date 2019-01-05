@@ -19,7 +19,7 @@
         "innmind/immutable": "^2.8",
         "innmind/http-transport": "^3.3",
         "innmind/server-control": "^2.5",
-        "innmind/cli": "^1.2"
+        "innmind/cli": "^1.4"
     },
     "autoload": {
         "psr-4": {
