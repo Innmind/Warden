@@ -26,7 +26,8 @@ function bootstrap(OperatingSystem $os): Commands
         new Lock($os->control()),
         new Grant(
             new Github($transport),
-            $os->control()
+            $os->control(),
+            $os->filesystem()
         )
     );
 }
