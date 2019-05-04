@@ -41,5 +41,13 @@
     "scripts": {
         "test": "vendor/bin/phpunit --colors=always"
     },
-    "bin": ["warden"]
+    "bin": ["warden"],
+    "extra": {
+        "gene": {
+            "expression": [
+                "warden deploy",
+                "warden grant Baptouuuu"
+            ]
+        }
+    }
 }
