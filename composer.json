@@ -20,7 +20,8 @@
         "innmind/http-transport": "^4.0",
         "innmind/server-control": "^2.5",
         "innmind/cli": "^1.4",
-        "innmind/operating-system": "~1.2"
+        "innmind/operating-system": "~1.2",
+        "innmind/silent-cartographer": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -41,5 +42,13 @@
     "scripts": {
         "test": "vendor/bin/phpunit --colors=always"
     },
-    "bin": ["warden"]
+    "bin": ["warden"],
+    "extra": {
+        "gene": {
+            "expression": [
+                "warden deploy",
+                "warden grant Baptouuuu"
+            ]
+        }
+    }
 }
