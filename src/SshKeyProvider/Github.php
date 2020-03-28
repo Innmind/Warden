@@ -39,6 +39,7 @@ final class Github implements SshKeyProvider
             new ProtocolVersion(2, 0)
         ));
 
+        /** @var Set<string> */
         return $response
             ->body()
             ->read()

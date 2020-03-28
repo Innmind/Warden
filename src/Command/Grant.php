@@ -19,7 +19,10 @@ use Innmind\Server\Control\{
     Server\Process\ExitCode,
 };
 use Innmind\OperatingSystem\Filesystem;
-use Innmind\Filesystem\Name as FileName;
+use Innmind\Filesystem\{
+    Directory,
+    Name as FileName
+};
 use Innmind\Url\Path;
 use Innmind\Immutable\Set;
 
@@ -87,6 +90,7 @@ USAGE;
             return $keys;
         }
 
+        /** @var Directory */
         $ssh = $home->get(new FileName('.ssh'));
 
         if (!$ssh->contains(new FileName('authorized_keys'))) {
