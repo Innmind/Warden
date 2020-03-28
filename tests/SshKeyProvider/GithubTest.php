@@ -38,9 +38,9 @@ class GithubTest extends TestCase
             ->expects($this->once())
             ->method('__invoke')
             ->with($this->callback(static function($request): bool {
-                return (string) $request->url() === 'http://github.com/baptouuuu.keys' &&
-                    (string) $request->method() === 'GET' &&
-                    (string) $request->protocolVersion() === '2.0';
+                return $request->url()->toString() === 'http://github.com/baptouuuu.keys' &&
+                    $request->method()->toString() === 'GET' &&
+                    $request->protocolVersion()->toString() === '2.0';
             }))
             ->willReturn($response = $this->createMock(Response::class));
         $response

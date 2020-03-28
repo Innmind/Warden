@@ -33,7 +33,7 @@ final class Wakeup implements Command
             return;
         }
 
-        $exitCode = $this
+        $process = $this
             ->server
             ->processes()
             ->execute(
@@ -41,13 +41,12 @@ final class Wakeup implements Command
                     ->withArgument('-i.bak')
                     ->withArgument('s/#PasswordAuthentication yes/PasswordAuthentication no/g')
                     ->withArgument('/etc/ssh/sshd_config')
-            )
-            ->wait()
-            ->exitCode();
-        $env->exit($exitCode->toInt());
+            );
+        $process->wait();
+        $env->exit($process->exitCode()->toInt());
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 wakeup

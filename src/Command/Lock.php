@@ -33,20 +33,19 @@ final class Lock implements Command
             return;
         }
 
-        $exitCode = $this
+        $process = $this
             ->server
             ->processes()
             ->execute(
                 ServerCommand::foreground('service')
                     ->withArgument('ssh')
                     ->withArgument('stop')
-            )
-            ->wait()
-            ->exitCode();
-        $env->exit($exitCode->toInt());
+            );
+        $process->wait();
+        $env->exit($process->exitCode()->toInt());
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 lock
