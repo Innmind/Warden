@@ -39,7 +39,7 @@ final class Lock implements Command
             ->execute(
                 ServerCommand::foreground('service')
                     ->withArgument('ssh')
-                    ->withArgument('stop')
+                    ->withArgument('stop'),
             );
         $process->wait();
         $env->exit($process->exitCode()->toInt());

@@ -36,7 +36,7 @@ final class Github implements SshKeyProvider
         $response = ($this->http)(new Request(
             Url::of("http://github.com/$name.keys"),
             Method::get(),
-            new ProtocolVersion(2, 0)
+            new ProtocolVersion(2, 0),
         ));
 
         /** @var Set<string> */
@@ -47,11 +47,9 @@ final class Github implements SshKeyProvider
             ->filter(static function(Str $key): bool {
                 return !$key->empty();
             })
-            ->reduce(
-                Set::of('string'),
-                static function(Set $keys, Str $key): Set {
-                    return $keys->add($key->toString());
-                }
+            ->toSetOf(
+                'string',
+                static fn(Str $key): \Generator => yield $key->toString(),
             );
     }
 }

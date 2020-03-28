@@ -18,7 +18,7 @@ function bootstrap(OperatingSystem $os): Commands
     $transports = transports();
     $throw = $transports['throw_on_error'];
     $transport = $throw(
-        $os->remote()->http()
+        $os->remote()->http(),
     );
 
     return new Commands(
@@ -27,7 +27,7 @@ function bootstrap(OperatingSystem $os): Commands
         new Grant(
             new Github($transport),
             $os->control(),
-            $os->filesystem()
-        )
+            $os->filesystem(),
+        ),
     );
 }

@@ -40,7 +40,7 @@ final class Wakeup implements Command
                 ServerCommand::foreground('sed')
                     ->withArgument('-i.bak')
                     ->withArgument('s/#PasswordAuthentication yes/PasswordAuthentication no/g')
-                    ->withArgument('/etc/ssh/sshd_config')
+                    ->withArgument('/etc/ssh/sshd_config'),
             );
         $process->wait();
         $env->exit($process->exitCode()->toInt());
