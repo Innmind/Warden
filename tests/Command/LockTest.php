@@ -46,7 +46,7 @@ class LockTest extends TestCase
             ->expects($this->once())
             ->method('variables')
             ->willReturn(
-                (new Map('string', 'string'))->put('USER', 'foo')
+                (Map::of('string', 'string'))->put('USER', 'foo')
             );
         $env
             ->expects($this->once())
@@ -81,7 +81,7 @@ class LockTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($this->callback(static function($command): bool {
-                return (string) $command === "service 'ssh' 'stop'";
+                return $command->toString() === "service 'ssh' 'stop'";
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -97,7 +97,7 @@ class LockTest extends TestCase
             ->expects($this->once())
             ->method('variables')
             ->willReturn(
-                (new Map('string', 'string'))->put('USER', 'root')
+                (Map::of('string', 'string'))->put('USER', 'root')
             );
         $env
             ->expects($this->once())
@@ -119,6 +119,6 @@ lock
 Stop the ssh service
 USAGE;
 
-        $this->assertSame($expected, (string) new Lock($this->createMock(Server::class)));
+        $this->assertSame($expected, (new Lock($this->createMock(Server::class)))->toString());
     }
 }

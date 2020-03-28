@@ -10,19 +10,18 @@ use Innmind\Warden\{
 use Innmind\HttpTransport\Transport;
 use Innmind\Http\{
     Message\Request\Request,
-    Message\Method\Method,
-    ProtocolVersion\ProtocolVersion,
+    Message\Method,
+    ProtocolVersion,
 };
 use Innmind\Url\Url;
 use Innmind\Immutable\{
-    SetInterface,
     Set,
     Str,
 };
 
 final class Github implements SshKeyProvider
 {
-    private $http;
+    private Transport $http;
 
     public function __construct(Transport $http)
     {
@@ -32,14 +31,15 @@ final class Github implements SshKeyProvider
     /**
      * {@inheritdoc}
      */
-    public function __invoke(Name $name): SetInterface
+    public function __invoke(Name $name): Set
     {
         $response = ($this->http)(new Request(
-            Url::fromString("http://github.com/$name.keys"),
-            new Method(Method::GET),
-            new ProtocolVersion(2, 0)
+            Url::of("http://github.com/{$name->toString()}.keys"),
+            Method::get(),
+            new ProtocolVersion(2, 0),
         ));
 
+        /** @var Set<string> */
         return $response
             ->body()
             ->read()
@@ -47,11 +47,9 @@ final class Github implements SshKeyProvider
             ->filter(static function(Str $key): bool {
                 return !$key->empty();
             })
-            ->reduce(
-                Set::of('string'),
-                static function(SetInterface $keys, Str $key): SetInterface {
-                    return $keys->add((string) $key);
-                }
+            ->toSetOf(
+                'string',
+                static fn(Str $key): \Generator => yield $key->toString(),
             );
     }
 }

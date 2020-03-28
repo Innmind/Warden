@@ -19,14 +19,18 @@ use Innmind\Server\Control\{
     Server\Process\ExitCode,
 };
 use Innmind\OperatingSystem\Filesystem;
+use Innmind\Filesystem\{
+    Directory,
+    Name as FileName
+};
 use Innmind\Url\Path;
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 
 final class Grant implements Command
 {
-    private $fetch;
-    private $server;
-    private $filesystem;
+    private SshKeyProvider $fetch;
+    private Server $server;
+    private Filesystem $filesystem;
 
     public function __construct(
         SshKeyProvider $fetch,
@@ -41,7 +45,7 @@ final class Grant implements Command
     public function __invoke(Environment $env, Arguments $arguments, Options $options): void
     {
         $keys = ($this->fetch)(new Name($arguments->get('name')));
-        $home = $env->variables()->get('HOME');
+        $home = Path::of($env->variables()->get('HOME'));
 
         $exitCode = $this->filter($home, $keys)->reduce(
             new ExitCode(0),
@@ -50,23 +54,24 @@ final class Grant implements Command
                     return $exitCode;
                 }
 
-                return $this
+                $process = $this
                     ->server
                     ->processes()
                     ->execute(
                         ServerCommand::foreground('echo')
                             ->withArgument($key)
-                            ->append('.ssh/authorized_keys')
-                            ->withWorkingDirectory($home)
-                    )
-                    ->wait()
-                    ->exitCode();
+                            ->append(Path::of('.ssh/authorized_keys'))
+                            ->withWorkingDirectory($home),
+                    );
+                $process->wait();
+
+                return $process->exitCode();
             }
         );
         $env->exit($exitCode->toInt());
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 grant name
@@ -77,24 +82,25 @@ It will fetch ssh keys from github and happen them in ~/.ssh/authorized_keys
 USAGE;
     }
 
-    private function filter(string $home, SetInterface $keys): SetInterface
+    private function filter(Path $home, Set $keys): Set
     {
-        $home = $this->filesystem->mount(new Path($home));
+        $home = $this->filesystem->mount($home);
 
-        if (!$home->has('.ssh')) {
+        if (!$home->contains(new FileName('.ssh'))) {
             return $keys;
         }
 
-        $ssh = $home->get('.ssh');
+        /** @var Directory */
+        $ssh = $home->get(new FileName('.ssh'));
 
-        if (!$ssh->has('authorized_keys')) {
+        if (!$ssh->contains(new FileName('authorized_keys'))) {
             return $keys;
         }
 
-        $authorized = $ssh->get('authorized_keys')->content();
+        $authorized = $ssh->get(new FileName('authorized_keys'))->content();
 
         while (!$authorized->end()) {
-            $key = (string) $authorized->readLine();
+            $key = $authorized->readLine()->toString();
 
             if ($keys->contains($key)) {
                 $keys = $keys->remove($key);

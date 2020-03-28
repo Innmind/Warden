@@ -17,7 +17,7 @@ use Innmind\Immutable\Str;
 
 final class Wakeup implements Command
 {
-    private $server;
+    private Server $server;
 
     public function __construct(Server $server)
     {
@@ -33,21 +33,20 @@ final class Wakeup implements Command
             return;
         }
 
-        $exitCode = $this
+        $process = $this
             ->server
             ->processes()
             ->execute(
                 ServerCommand::foreground('sed')
                     ->withArgument('-i.bak')
                     ->withArgument('s/#PasswordAuthentication yes/PasswordAuthentication no/g')
-                    ->withArgument('/etc/ssh/sshd_config')
-            )
-            ->wait()
-            ->exitCode();
-        $env->exit($exitCode->toInt());
+                    ->withArgument('/etc/ssh/sshd_config'),
+            );
+        $process->wait();
+        $env->exit($process->exitCode()->toInt());
     }
 
-    public function __toString(): string
+    public function toString(): string
     {
         return <<<USAGE
 wakeup

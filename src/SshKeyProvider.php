@@ -3,12 +3,12 @@ declare(strict_types = 1);
 
 namespace Innmind\Warden;
 
-use Innmind\Immutable\SetInterface;
+use Innmind\Immutable\Set;
 
 interface SshKeyProvider
 {
     /**
-     * @return SetInterface<string>
+     * @return Set<string>
      */
-    public function __invoke(Name $name): SetInterface;
+    public function __invoke(Name $name): Set;
 }

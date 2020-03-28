@@ -46,7 +46,7 @@ class WakeupTest extends TestCase
             ->expects($this->once())
             ->method('variables')
             ->willReturn(
-                (new Map('string', 'string'))->put('USER', 'foo')
+                (Map::of('string', 'string'))->put('USER', 'foo')
             );
         $env
             ->expects($this->once())
@@ -81,7 +81,7 @@ class WakeupTest extends TestCase
             ->expects($this->once())
             ->method('execute')
             ->with($this->callback(static function($command): bool {
-                return (string) $command === "sed '-i.bak' 's/#PasswordAuthentication yes/PasswordAuthentication no/g' '/etc/ssh/sshd_config'";
+                return $command->toString() === "sed '-i.bak' 's/#PasswordAuthentication yes/PasswordAuthentication no/g' '/etc/ssh/sshd_config'";
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -97,7 +97,7 @@ class WakeupTest extends TestCase
             ->expects($this->once())
             ->method('variables')
             ->willReturn(
-                (new Map('string', 'string'))->put('USER', 'root')
+                (Map::of('string', 'string'))->put('USER', 'root')
             );
         $env
             ->expects($this->once())
@@ -119,6 +119,6 @@ wakeup
 Modify the server ssh config to only allow ssh connections via ssh key
 USAGE;
 
-        $this->assertSame($expected, (string) new Wakeup($this->createMock(Server::class)));
+        $this->assertSame($expected, (new Wakeup($this->createMock(Server::class)))->toString());
     }
 }
