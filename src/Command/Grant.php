@@ -24,9 +24,9 @@ use Innmind\Immutable\SetInterface;
 
 final class Grant implements Command
 {
-    private $fetch;
-    private $server;
-    private $filesystem;
+    private SshKeyProvider $fetch;
+    private Server $server;
+    private Filesystem $filesystem;
 
     public function __construct(
         SshKeyProvider $fetch,

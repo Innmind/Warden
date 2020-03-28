@@ -17,7 +17,7 @@ use Innmind\Immutable\Str;
 
 final class Wakeup implements Command
 {
-    private $server;
+    private Server $server;
 
     public function __construct(Server $server)
     {

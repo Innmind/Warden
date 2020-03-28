@@ -22,7 +22,7 @@ use Innmind\Immutable\{
 
 final class Github implements SshKeyProvider
 {
-    private $http;
+    private Transport $http;
 
     public function __construct(Transport $http)
     {

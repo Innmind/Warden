@@ -15,7 +15,7 @@
         "issues": "http://github.com/Innmind/Warden/issues"
     },
     "require": {
-        "php": "~7.2",
+        "php": "~7.4",
         "innmind/immutable": "^2.8",
         "innmind/http-transport": "^4.0",
         "innmind/server-control": "^2.5",
