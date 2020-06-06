@@ -37,5 +37,8 @@
         "vimeo/psalm": "^3.10",
         "innmind/black-box": "^4.9"
     },
-    "bin": ["warden"]
+    "bin": ["warden"],
+    "provide": {
+        "innmind/genome": "3.0"
+    }
 }
