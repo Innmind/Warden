@@ -9,11 +9,14 @@ use Innmind\Warden\{
     Command\Grant,
     SshKeyProvider\Github,
 };
-use Innmind\CLI\Commands;
+use Innmind\CLI\Command;
 use Innmind\OperatingSystem\OperatingSystem;
 use function Innmind\HttpTransport\bootstrap as transports;
 
-function bootstrap(OperatingSystem $os): Commands
+/**
+ * @return list<Command>
+ */
+function bootstrap(OperatingSystem $os): array
 {
     $transports = transports();
     $throw = $transports['throw_on_error'];
@@ -21,7 +24,7 @@ function bootstrap(OperatingSystem $os): Commands
         $os->remote()->http(),
     );
 
-    return new Commands(
+    return [
         new Wakeup($os->control()),
         new Lock($os->control()),
         new Grant(
@@ -29,5 +32,5 @@ function bootstrap(OperatingSystem $os): Commands
             $os->control(),
             $os->filesystem(),
         ),
-    );
+    ];
 }
