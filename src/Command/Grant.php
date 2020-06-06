@@ -82,6 +82,11 @@ It will fetch ssh keys from github and happen them in ~/.ssh/authorized_keys
 USAGE;
     }
 
+    /**
+     * @param Set<string> $keys
+     *
+     * @return Set<string>
+     */
     private function filter(Path $home, Set $keys): Set
     {
         $home = $this->filesystem->mount($home);

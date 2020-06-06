@@ -12,9 +12,7 @@ class BootstrapTest extends TestCase
 {
     public function testBootstrap()
     {
-        $this->assertInstanceOf(
-            Commands::class,
-            bootstrap($this->createMock(OperatingSystem::class))
-        );
+        $this->assertIsArray(bootstrap($this->createMock(OperatingSystem::class)));
+        $this->assertCount(3, bootstrap($this->createMock(OperatingSystem::class)));
     }
 }

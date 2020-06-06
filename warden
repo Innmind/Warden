@@ -8,26 +8,21 @@ $paths = [
 ];
 
 foreach ($paths as $file) {
-    if (file_exists($file)) {
+    if (\file_exists($file)) {
         require $file;
         break;
     }
 }
 
 use function Innmind\Warden\bootstrap;
-use Innmind\CLI\{
+use Innmind\CLI\Framework\{
     Main,
-    Environment,
+    Application,
 };
-use Innmind\OperatingSystem\OperatingSystem;
-use Innmind\Url\Url;
-use function Innmind\SilentCartographer\bootstrap as cartographer;
 
 new class extends Main {
-    protected function main(Environment $env, OperatingSystem $os): void
+    protected function configure(Application $app): Application
     {
-        $os = cartographer($os)['cli'](Url::of(__DIR__));
-        $run = bootstrap($os);
-        $run($env);
+        return $app->commands(static fn($env, $os) => bootstrap($os));
     }
 };
