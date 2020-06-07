@@ -45,7 +45,7 @@ final class Grant implements Command
     public function __invoke(Environment $env, Arguments $arguments, Options $options): void
     {
         $keys = ($this->fetch)(new Name($arguments->get('name')));
-        $home = Path::of($env->variables()->get('HOME'));
+        $home = Path::of($env->variables()->get('HOME').'/');
 
         $exitCode = $this->filter($home, $keys)->reduce(
             new ExitCode(0),

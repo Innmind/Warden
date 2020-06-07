@@ -69,7 +69,7 @@ class GrantTest extends TestCase
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -85,7 +85,7 @@ class GrantTest extends TestCase
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -140,7 +140,7 @@ class GrantTest extends TestCase
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -239,7 +239,7 @@ USAGE;
         $filesystem
             ->expects($this->once())
             ->method('mount')
-            ->with(Path::of('/home/baptouuuu'))
+            ->with(Path::of('/home/baptouuuu/'))
             ->willReturn($home = new Adapter\InMemory());
         $home->add(
             Directory::named('.ssh')->add(File::named(
@@ -261,7 +261,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -277,7 +277,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -321,7 +321,7 @@ USAGE;
         $filesystem
             ->expects($this->once())
             ->method('mount')
-            ->with(Path::of('/home/baptouuuu'))
+            ->with(Path::of('/home/baptouuuu/'))
             ->willReturn($home = new Adapter\InMemory());
         $home->add(Directory::named('.ssh'));
         $provider
@@ -338,7 +338,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -354,7 +354,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -370,7 +370,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -414,7 +414,7 @@ USAGE;
         $filesystem
             ->expects($this->once())
             ->method('mount')
-            ->with(Path::of('/home/baptouuuu'))
+            ->with(Path::of('/home/baptouuuu/'))
             ->willReturn($home = new Adapter\InMemory());
         $provider
             ->expects($this->once())
@@ -430,7 +430,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -446,7 +446,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
@@ -462,7 +462,7 @@ USAGE;
             ->method('execute')
             ->with($this->callback(static function($command): bool {
                 return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu';
+                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
             }))
             ->willReturn($process = $this->createMock(Process::class));
         $process
