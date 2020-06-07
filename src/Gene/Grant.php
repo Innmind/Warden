@@ -38,7 +38,11 @@ final class Grant implements Gene
     ): History {
         try {
             $preCondition = new Script(
-                Command::foreground('which')->withArgument('warden'),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument('warden help')
+                    ->withShortOption('v'),
             );
             $preCondition($target);
         } catch (ScriptFailed $e) {
@@ -47,9 +51,11 @@ final class Grant implements Gene
 
         try {
             $grant = new Script(
-                Command::foreground('warden')
-                    ->withArgument('grant')
-                    ->withArgument($this->name),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument("warden grant {$this->name}")
+                    ->withShortOption('v'),
             );
             $grant($target);
         } catch (ScriptFailed $e) {

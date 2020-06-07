@@ -31,7 +31,11 @@ final class Wakeup implements Gene
     ): History {
         try {
             $preCondition = new Script(
-                Command::foreground('which')->withArgument('warden'),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument('warden help')
+                    ->withShortOption('v'),
             );
             $preCondition($target);
         } catch (ScriptFailed $e) {
@@ -40,7 +44,11 @@ final class Wakeup implements Gene
 
         try {
             $wakeup = new Script(
-                Command::foreground('warden')->withArgument('wakeup'),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument('warden wakeup')
+                    ->withShortOption('v'),
             );
             $wakeup($target);
         } catch (ScriptFailed $e) {
