@@ -31,7 +31,11 @@ final class Lock implements Gene
     ): History {
         try {
             $preCondition = new Script(
-                Command::foreground('which')->withArgument('warden'),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument('warden help')
+                    ->withShortOption('v'),
             );
             $preCondition($target);
         } catch (ScriptFailed $e) {
@@ -40,7 +44,11 @@ final class Lock implements Gene
 
         try {
             $lock = new Script(
-                Command::foreground('warden')->withArgument('lock'),
+                Command::foreground('composer')
+                    ->withArgument('global')
+                    ->withArgument('exec')
+                    ->withArgument('warden lock')
+                    ->withShortOption('v'),
             );
             $lock($target);
         } catch (ScriptFailed $e) {
