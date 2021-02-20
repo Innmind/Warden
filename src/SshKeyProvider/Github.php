@@ -28,9 +28,6 @@ final class Github implements SshKeyProvider
         $this->http = $http;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __invoke(Name $name): Set
     {
         $response = ($this->http)(new Request(
