@@ -1,6 +1,6 @@
 # Warden
 
-[![Build Status](https://github.com/Innmind/Warden/workflows/CI/badge.svg)](https://github.com/Innmind/Warden/actions?query=workflow%3ACI)
+[![Build Status](https://github.com/Innmind/Warden/workflows/CI/badge.svg?branch=master)](https://github.com/Innmind/Warden/actions?query=workflow%3ACI)
 [![codecov](https://codecov.io/gh/Innmind/Warden/branch/develop/graph/badge.svg)](https://codecov.io/gh/Innmind/Warden)
 [![Type Coverage](https://shepherd.dev/github/Innmind/Warden/coverage.svg)](https://shepherd.dev/github/Innmind/Warden)
 
