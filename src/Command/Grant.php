@@ -50,7 +50,7 @@ final class Grant implements Command
         $exitCode = $this->filter($home, $keys)->reduce(
             new ExitCode(0),
             function(ExitCode $exitCode, string $key) use ($home): ExitCode {
-                if (!$exitCode->isSuccessful()) {
+                if (!$exitCode->successful()) {
                     return $exitCode;
                 }
 
