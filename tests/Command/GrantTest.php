@@ -65,34 +65,35 @@ class GrantTest extends TestCase
             ->method('processes')
             ->willReturn($processes = $this->createMock(Processes::class));
         $processes
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+            ->withConsecutive(
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+            )
+            ->will($this->onConsecutiveCalls(
+                $process1 = $this->createMock(Process::class),
+                $process2 = $this->createMock(Process::class),
+            ));
+        $process1
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process1
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process2
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process2
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
@@ -257,34 +258,35 @@ USAGE;
             ->method('processes')
             ->willReturn($processes = $this->createMock(Processes::class));
         $processes
-            ->expects($this->at(0))
+            ->expects($this->exactly(2))
             ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+            ->withConsecutive(
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+            )
+            ->will($this->onConsecutiveCalls(
+                $process1 = $this->createMock(Process::class),
+                $process2 = $this->createMock(Process::class),
+            ));
+        $process1
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process1
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process2
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process2
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
@@ -334,50 +336,48 @@ USAGE;
             ->method('processes')
             ->willReturn($processes = $this->createMock(Processes::class));
         $processes
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+            ->withConsecutive(
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+            )
+            ->will($this->onConsecutiveCalls(
+                $process1 = $this->createMock(Process::class),
+                $process2 = $this->createMock(Process::class),
+                $process3 = $this->createMock(Process::class),
+            ));
+        $process1
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process1
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process2
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process2
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(2))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process3
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process3
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
@@ -426,50 +426,48 @@ USAGE;
             ->method('processes')
             ->willReturn($processes = $this->createMock(Processes::class));
         $processes
-            ->expects($this->at(0))
+            ->expects($this->exactly(3))
             ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+            ->withConsecutive(
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'foo' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+                [$this->callback(static function($command): bool {
+                    return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
+                        $command->workingDirectory()->toString() === '/home/baptouuuu/';
+                })],
+            )
+            ->will($this->onConsecutiveCalls(
+                $process1 = $this->createMock(Process::class),
+                $process2 = $this->createMock(Process::class),
+                $process3 = $this->createMock(Process::class),
+            ));
+        $process1
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process1
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(1))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'bar' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process2
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process2
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
-        $processes
-            ->expects($this->at(2))
-            ->method('execute')
-            ->with($this->callback(static function($command): bool {
-                return $command->toString() === "echo 'baz' >> '.ssh/authorized_keys'" &&
-                    $command->workingDirectory()->toString() === '/home/baptouuuu/';
-            }))
-            ->willReturn($process = $this->createMock(Process::class));
-        $process
+        $process3
             ->expects($this->once())
             ->method('wait')
             ->will($this->returnSelf());
-        $process
+        $process3
             ->expects($this->once())
             ->method('exitCode')
             ->willReturn(new ExitCode(0));
